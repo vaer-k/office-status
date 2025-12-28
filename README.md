@@ -68,29 +68,24 @@ Use this markup in your TRMNL custom plugin:
   {% assign border_class = "border--white" %}
 {% endif %}
 
-<div class="layout layout--center {{ bg_class }} {{ text_class }}" style="padding: 32px;">
+<div class="layout layout--center {{ bg_class }} {{ text_class }}" style="padding: 24px;">
   <div class="column">
     
-    <div class="content--s weight--bold mb--m" style="letter-spacing: 3px;">
+    <div class="weight--bold" style="font-size: 24px; letter-spacing: 4px; margin-bottom: 16px;">
       {{ settings.office_owner | upcase }}
     </div>
 
-    <div class="item item--full-width item--center border--none">
-      <div class="column">
-        <div class="weight--bold" style="font-size: 72px; line-height: 1;">
-          {% if s_icon != "" %}{{ s_icon }} {% endif %}{{ s_name | upcase }}
-        </div>
-      </div>
+    <div class="weight--bold" style="font-size: 96px; line-height: 1; margin-bottom: 24px;">
+      {% if s_icon != "" %}{{ s_icon }} {% endif %}{{ s_name | upcase }}
     </div>
 
     {% if s_message != "" %}
-      <div class="hr mt--l mb--l {{ border_class }}" style="opacity: 0.3;"></div>
-      <div class="weight--regular" style="font-size: 32px; line-height: 1.3;">
+      <div class="weight--regular" style="font-size: 40px; line-height: 1.2;">
         {{ s_message }}
       </div>
     {% endif %}
     
-    <div class="content--s mt--xl" style="opacity: 0.5;">
+    <div style="font-size: 20px; opacity: 0.4; margin-top: 32px;">
       {{ "now" | date: "%I:%M %p" }}
     </div>
 
