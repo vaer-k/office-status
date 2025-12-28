@@ -12,8 +12,8 @@ defmodule OfficeStatus.Application do
       OfficeStatus.Repo,
       {DNSCluster, query: Application.get_env(:office_status, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: OfficeStatus.PubSub},
-      # Start a worker by calling: OfficeStatus.Worker.start_link(arg)
-      # {OfficeStatus.Worker, arg},
+      # Finch HTTP client for TRMNL API calls
+      {Finch, name: OfficeStatus.Finch},
       # Start to serve requests, typically the last entry
       OfficeStatusWeb.Endpoint
     ]
