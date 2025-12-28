@@ -1,0 +1,491 @@
+/* See the Tailwind configuration guide for advanced usage
+   https://tailwindcss.com/docs/configuration */
+
+@import "tailwindcss" source(none);
+@source "../css";
+@source "../js";
+@source "../../lib/office_status_web";
+
+/* A Tailwind plugin that makes "hero-#{ICON}" classes available.
+   The heroicons installation itself is managed by your mix.exs */
+@plugin "../vendor/heroicons";
+
+/* daisyUI Tailwind Plugin. You can update this file by fetching the latest version with:
+   curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui.js
+   Make sure to look at the daisyUI changelog: https://daisyui.com/docs/changelog/ */
+@plugin "../vendor/daisyui" {
+  themes: false;
+}
+
+/* daisyUI theme plugin. You can update this file by fetching the latest version with:
+  curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
+  We ship with two themes, a light one inspired on Phoenix colors and a dark one inspired
+  on Elixir colors. Build your own at: https://daisyui.com/theme-generator/ */
+@plugin "../vendor/daisyui-theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: oklch(30.33% 0.016 252.42);
+  --color-base-200: oklch(25.26% 0.014 253.1);
+  --color-base-300: oklch(20.15% 0.012 254.09);
+  --color-base-content: oklch(97.807% 0.029 256.847);
+  --color-primary: oklch(58% 0.233 277.117);
+  --color-primary-content: oklch(96% 0.018 272.314);
+  --color-secondary: oklch(58% 0.233 277.117);
+  --color-secondary-content: oklch(96% 0.018 272.314);
+  --color-accent: oklch(60% 0.25 292.717);
+  --color-accent-content: oklch(96% 0.016 293.756);
+  --color-neutral: oklch(37% 0.044 257.287);
+  --color-neutral-content: oklch(98% 0.003 247.858);
+  --color-info: oklch(58% 0.158 241.966);
+  --color-info-content: oklch(97% 0.013 236.62);
+  --color-success: oklch(60% 0.118 184.704);
+  --color-success-content: oklch(98% 0.014 180.72);
+  --color-warning: oklch(66% 0.179 58.318);
+  --color-warning-content: oklch(98% 0.022 95.277);
+  --color-error: oklch(58% 0.253 17.585);
+  --color-error-content: oklch(96% 0.015 12.422);
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "../vendor/daisyui-theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(98% 0 0);
+  --color-base-200: oklch(96% 0.001 286.375);
+  --color-base-300: oklch(92% 0.004 286.32);
+  --color-base-content: oklch(21% 0.006 285.885);
+  --color-primary: oklch(70% 0.213 47.604);
+  --color-primary-content: oklch(98% 0.016 73.684);
+  --color-secondary: oklch(55% 0.027 264.364);
+  --color-secondary-content: oklch(98% 0.002 247.839);
+  --color-accent: oklch(0% 0 0);
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: oklch(44% 0.017 285.786);
+  --color-neutral-content: oklch(98% 0 0);
+  --color-info: oklch(62% 0.214 259.815);
+  --color-info-content: oklch(97% 0.014 254.604);
+  --color-success: oklch(70% 0.14 182.503);
+  --color-success-content: oklch(98% 0.014 180.72);
+  --color-warning: oklch(66% 0.179 58.318);
+  --color-warning-content: oklch(98% 0.022 95.277);
+  --color-error: oklch(58% 0.253 17.585);
+  --color-error-content: oklch(96% 0.015 12.422);
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* Add variants based on LiveView classes */
+@custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);
+@custom-variant phx-submit-loading (.phx-submit-loading&, .phx-submit-loading &);
+@custom-variant phx-change-loading (.phx-change-loading&, .phx-change-loading &);
+
+/* Use the data attribute for dark mode  */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Make LiveView wrapper divs transparent for layout */
+[data-phx-session], [data-phx-teleported-src] { display: contents }
+
+/* This file is for your main application CSS */
+
+/* ============================================
+   OFFICE STATUS DASHBOARD - MODERN DESIGN
+   ============================================ */
+
+/* CSS Variables for the color system */
+:root {
+  --gradient-start: #0f0c29;
+  --gradient-mid: #302b63;
+  --gradient-end: #24243e;
+  
+  /* Status colors with vibrant gradients */
+  --status-green: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  --status-red: linear-gradient(135deg, #cb2d3e 0%, #ef473a 100%);
+  --status-orange: linear-gradient(135deg, #f46b45 0%, #eea849 100%);
+  --status-yellow: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+  --status-gray: linear-gradient(135deg, #525252 0%, #757575 100%);
+  
+  /* Glow effects */
+  --glow-green: 0 0 40px rgba(56, 239, 125, 0.4);
+  --glow-red: 0 0 40px rgba(239, 71, 58, 0.4);
+  --glow-orange: 0 0 40px rgba(238, 168, 73, 0.4);
+  --glow-yellow: 0 0 40px rgba(255, 210, 0, 0.4);
+  --glow-gray: 0 0 40px rgba(117, 117, 117, 0.3);
+}
+
+/* Global body styling with animated gradient */
+body {
+  min-height: 100vh;
+  background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a1a2e);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  color: #f0f0f0;
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Dashboard container */
+.dashboard {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ============================================
+   STATUS HERO SECTION
+   ============================================ */
+.status-hero {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.status-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--status-gray);
+  transition: background 0.5s ease;
+}
+
+.status-hero--green { box-shadow: var(--glow-green); }
+.status-hero--green::before { background: var(--status-green); }
+
+.status-hero--red { box-shadow: var(--glow-red); }
+.status-hero--red::before { background: var(--status-red); }
+
+.status-hero--orange { box-shadow: var(--glow-orange); }
+.status-hero--orange::before { background: var(--status-orange); }
+
+.status-hero--yellow { box-shadow: var(--glow-yellow); }
+.status-hero--yellow::before { background: var(--status-yellow); }
+
+.status-hero--gray { box-shadow: var(--glow-gray); }
+.status-hero--gray::before { background: var(--status-gray); }
+
+.status-hero__icon {
+  font-size: 5rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.status-hero__content {
+  flex: 1;
+}
+
+.status-hero__name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  background: linear-gradient(135deg, #fff 0%, #ddd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.status-hero__message {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-hero__message:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.edit-hint {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.status-hero__message:hover .edit-hint {
+  opacity: 1;
+}
+
+/* Message edit form */
+.message-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.message-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  font-size: 1.1rem;
+  color: #fff;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.message-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.message-edit-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn--save {
+  background: var(--status-green);
+  color: #fff;
+}
+
+.btn--save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(56, 239, 125, 0.3);
+}
+
+.btn--cancel {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn--cancel:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ============================================
+   STATUS GRID
+   ============================================ */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.status-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 1.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.status-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--status-gray);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.status-card--green::before { background: var(--status-green); }
+.status-card--red::before { background: var(--status-red); }
+.status-card--orange::before { background: var(--status-orange); }
+.status-card--yellow::before { background: var(--status-yellow); }
+.status-card--gray::before { background: var(--status-gray); }
+
+.status-card:hover::before {
+  opacity: 0.15;
+}
+
+.status-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.status-card--active {
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.02);
+}
+
+.status-card--active::before {
+  opacity: 0.2;
+}
+
+.status-card--active.status-card--green { box-shadow: var(--glow-green); }
+.status-card--active.status-card--red { box-shadow: var(--glow-red); }
+.status-card--active.status-card--orange { box-shadow: var(--glow-orange); }
+.status-card--active.status-card--yellow { box-shadow: var(--glow-yellow); }
+.status-card--active.status-card--gray { box-shadow: var(--glow-gray); }
+
+.status-card__icon {
+  font-size: 2.5rem;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.status-card:hover .status-card__icon {
+  transform: scale(1.1);
+}
+
+.status-card__name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  z-index: 1;
+  text-align: center;
+}
+
+.status-card__badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  z-index: 1;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.dashboard-footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+.dashboard-footer p {
+  margin: 0.5rem 0;
+}
+
+.api-hint code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  font-size: 0.85rem;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 640px) {
+  .dashboard {
+    padding: 1.5rem 1rem;
+  }
+  
+  .status-hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+  
+  .status-hero__icon {
+    font-size: 4rem;
+  }
+  
+  .status-hero__name {
+    font-size: 1.75rem;
+  }
+  
+  .status-hero__message {
+    font-size: 1rem;
+    justify-content: center;
+  }
+  
+  .status-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .status-card {
+    padding: 1.5rem 0.75rem;
+  }
+  
+  .status-card__icon {
+    font-size: 2rem;
+  }
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+.phx-click-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.phx-click-loading .status-card__icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
