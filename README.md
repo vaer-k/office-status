@@ -16,8 +16,8 @@ A Phoenix LiveView application for managing office availability status, designed
 
 | Status | Icon | Default Message |
 |--------|------|-----------------|
-| Available | 🟢 | Come on in! |
-| In a Meeting | 🔴 | In a meeting, please wait |
+| Available | ✓ | Come on in! |
+| In a Meeting | ⛔ | In a meeting, please wait |
 | Deep Focus | 🎧 | Deep work mode - check back later |
 | On a Call | 📞 | On a call |
 | Break | ☕ | Taking a break, back soon |
@@ -35,9 +35,95 @@ Returns:
   "status": "ok",
   "name": "Available",
   "message": "Come on in!",
-  "icon": "🟢",
+  "icon": "✓",
   "color": "green"
 }
+```
+
+## TRMNL Plugin Template
+
+Use this markup in your TRMNL custom plugin:
+
+```liquid
+{% assign settings = trmnl.plugin_settings.custom_fields_values %}
+{% assign theme_setting = settings.theme_mode %}
+
+{% assign s_name    = name    | default: settings.default_status %}
+{% assign s_message = message | default: "" %}
+{% assign s_icon    = icon    | default: "" %}
+{% assign s_color   = color   | default: "gray" %}
+
+{% assign is_busy = false %}
+{% if s_color == "red" or s_color == "orange" %}
+  {% assign is_busy = true %}
+{% endif %}
+
+{% assign bg_class = "" %}
+{% assign text_class = "color--black" %}
+{% assign border_class = "border--black" %}
+
+{% if theme_setting contains 'Dark' or (theme_setting contains 'Auto' and is_busy) %}
+  {% assign bg_class = "bg--black" %}
+  {% assign text_class = "color--white" %}
+  {% assign border_class = "border--white" %}
+{% endif %}
+
+<div class="layout layout--center {{ bg_class }} {{ text_class }}">
+  <div class="column">
+    
+    <div class="content--xs weight--bold mb--s" style="letter-spacing: 2px; opacity: 0.8;">
+      {{ settings.office_owner | upcase }}
+    </div>
+
+    <div class="item item--full-width item--center border--none">
+      <div class="column">
+        <div class="content--xl weight--bold" style="font-size: 42px; line-height: 1;">
+          {% if s_icon != "" %}{{ s_icon }} {% endif %}{{ s_name | upcase }}
+        </div>
+      </div>
+    </div>
+
+    {% if s_message != "" %}
+      <div class="hr mt--m mb--m {{ border_class }}" style="opacity: 0.3;"></div>
+      <div class="content--m weight--regular">
+        {{ s_message }}
+      </div>
+    {% endif %}
+    
+    <div class="content--xs mt--l" style="opacity: 0.6;">
+       UPDATED AT {{ "now" | date: "%I:%M %p" }}
+    </div>
+
+  </div>
+</div>
+```
+
+### Form Fields (YAML)
+
+```yaml
+- keyname: office_owner
+  name: Room Owner
+  field_type: string
+  default_value: "CHELSEA'S OFFICE"
+- keyname: default_status
+  name: Default Status
+  field_type: select
+  options:
+    - Available
+    - In a Meeting
+    - Deep Focus
+    - On a Call
+    - Break
+    - Away
+  default_value: "Available"
+- keyname: theme_mode
+  name: Theme Behavior
+  field_type: select
+  options:
+    - Auto-Invert (Red/Orange = Black)
+    - Always Light
+    - Always Dark
+  default_value: "Auto-Invert (Red/Orange = Black)"
 ```
 
 ## Local Development
