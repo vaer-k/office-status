@@ -6,8 +6,10 @@ import Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :office_status, OfficeStatus.Repo,
-  database:
-    Path.expand("../office_status_test#{System.get_env("MIX_TEST_PARTITION")}.db", __DIR__),
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "office_status_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2
 
