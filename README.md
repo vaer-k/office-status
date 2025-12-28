@@ -85,7 +85,7 @@ Use this markup in your TRMNL custom plugin:
 
     {% if s_message != "" %}
       <div class="hr mt--l mb--l {{ border_class }}" style="opacity: 0.3;"></div>
-      <div class="content--l weight--regular">
+      <div class="weight--regular" style="font-size: 32px; line-height: 1.3;">
         {{ s_message }}
       </div>
     {% endif %}
