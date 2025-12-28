@@ -68,7 +68,7 @@ Use this markup in your TRMNL custom plugin:
   {% assign border_class = "border--white" %}
 {% endif %}
 
-<div class="layout layout--center {{ bg_class }} {{ text_class }}">
+<div class="layout layout--center {{ bg_class }} {{ text_class }}" style="padding: 32px;">
   <div class="column">
     
     <div class="content--s weight--bold mb--m" style="letter-spacing: 3px;">
