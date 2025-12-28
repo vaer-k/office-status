@@ -58,7 +58,7 @@ defmodule OfficeStatus.Statuses do
         )
 
         # Post status update to TRMNL (async to not block response)
-        Task.start(fn -> OfficeStatus.TRMNL.update_status(updated_status.name) end)
+        Task.start(fn -> OfficeStatus.TRMNL.update_status(updated_status) end)
 
         {:ok, updated_status}
 

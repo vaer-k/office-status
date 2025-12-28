@@ -10,25 +10,39 @@ defmodule OfficeStatus.TRMNL do
   @doc """
   Posts a status update to the TRMNL API.
 
-  The status will be displayed on TRMNL devices.
-  If the status is "Available", the time is left empty.
-  Otherwise, the current Pacific time is included.
+  Accepts either a Status struct or just the status name.
+  Sends all status fields as merge_variables for the TRMNL template.
   """
-  def update_status(status_name) do
-    # Format status name for display (uppercase)
-    display_status = String.upcase(status_name)
-
-    # Format the current time for the footer (Pacific time)
-    current_time = format_pacific_time()
-
+  def update_status(%OfficeStatus.Statuses.Status{} = status) do
     body =
       Jason.encode!(%{
         merge_variables: %{
-          status: display_status,
-          time: if(display_status == "AVAILABLE", do: "", else: current_time)
+          name: status.name,
+          message: status.message,
+          icon: status.icon,
+          color: status.color
         }
       })
 
+    send_request(body, status.name)
+  end
+
+  def update_status(status_name) when is_binary(status_name) do
+    # Fallback for just a status name (backwards compatibility)
+    body =
+      Jason.encode!(%{
+        merge_variables: %{
+          name: status_name,
+          message: "",
+          icon: "",
+          color: ""
+        }
+      })
+
+    send_request(body, status_name)
+  end
+
+  defp send_request(body, status_name) do
     request =
       Finch.build(
         :post,
@@ -39,7 +53,7 @@ defmodule OfficeStatus.TRMNL do
 
     case Finch.request(request, OfficeStatus.Finch) do
       {:ok, %{status: status}} when status in 200..299 ->
-        Logger.info("TRMNL updated successfully: #{display_status}")
+        Logger.info("TRMNL updated successfully: #{status_name}")
         :ok
 
       {:ok, %{status: status, body: response_body}} ->
@@ -50,10 +64,5 @@ defmodule OfficeStatus.TRMNL do
         Logger.error("TRMNL update failed: #{inspect(reason)}")
         {:error, reason}
     end
-  end
-
-  defp format_pacific_time do
-    {:ok, now} = DateTime.now("America/Los_Angeles")
-    Calendar.strftime(now, "%I:%M %p")
   end
 end
