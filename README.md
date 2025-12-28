@@ -71,27 +71,27 @@ Use this markup in your TRMNL custom plugin:
 <div class="layout layout--center {{ bg_class }} {{ text_class }}">
   <div class="column">
     
-    <div class="content--xs weight--bold mb--s" style="letter-spacing: 2px; opacity: 0.8;">
+    <div class="content--s weight--bold mb--m" style="letter-spacing: 3px;">
       {{ settings.office_owner | upcase }}
     </div>
 
     <div class="item item--full-width item--center border--none">
       <div class="column">
-        <div class="content--xl weight--bold" style="font-size: 42px; line-height: 1;">
+        <div class="weight--bold" style="font-size: 72px; line-height: 1;">
           {% if s_icon != "" %}{{ s_icon }} {% endif %}{{ s_name | upcase }}
         </div>
       </div>
     </div>
 
     {% if s_message != "" %}
-      <div class="hr mt--m mb--m {{ border_class }}" style="opacity: 0.3;"></div>
-      <div class="content--m weight--regular">
+      <div class="hr mt--l mb--l {{ border_class }}" style="opacity: 0.3;"></div>
+      <div class="content--l weight--regular">
         {{ s_message }}
       </div>
     {% endif %}
     
-    <div class="content--xs mt--l" style="opacity: 0.6;">
-       UPDATED AT {{ "now" | date: "%I:%M %p" }}
+    <div class="content--s mt--xl" style="opacity: 0.5;">
+      {{ "now" | date: "%I:%M %p" }}
     </div>
 
   </div>
