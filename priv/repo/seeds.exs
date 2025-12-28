@@ -3,12 +3,12 @@
 alias OfficeStatus.Repo
 alias OfficeStatus.Statuses.Status
 
-# Default status presets
+# Default status presets with e-ink friendly icons
 statuses = [
   %{
     name: "Available",
     message: "Come on in!",
-    icon: "🟢",
+    icon: "✓",
     color: "green",
     is_active: true,
     display_order: 1
@@ -16,7 +16,7 @@ statuses = [
   %{
     name: "In a Meeting",
     message: "In a meeting, please wait",
-    icon: "🔴",
+    icon: "⛔",
     color: "red",
     is_active: false,
     display_order: 2
