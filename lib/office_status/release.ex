@@ -32,6 +32,24 @@ defmodule OfficeStatus.Release do
     end
   end
 
+  def update_icons do
+    load_app()
+
+    for repo <- repos() do
+      {:ok, _, _} =
+        Ecto.Migrator.with_repo(repo, fn _repo ->
+          import Ecto.Query
+          alias OfficeStatus.Statuses.Status
+
+          # Update to e-ink friendly icons
+          repo.update_all(from(s in Status, where: s.name == "Available"), set: [icon: "✓"])
+          repo.update_all(from(s in Status, where: s.name == "In a Meeting"), set: [icon: "⛔"])
+
+          IO.puts("✓ Updated icons for e-ink displays")
+        end)
+    end
+  end
+
   defp repos do
     Application.fetch_env!(@app, :ecto_repos)
   end
