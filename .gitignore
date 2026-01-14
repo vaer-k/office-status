@@ -35,3 +35,8 @@ office_status-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# SQLite development database
+*.db
+*.db-shm
+*.db-wal
+
