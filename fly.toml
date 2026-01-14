@@ -15,6 +15,7 @@ kill_signal = 'SIGTERM'
 [env]
   PHX_HOST = 'office-status.fly.dev'
   PORT = '8080'
+  TZ = 'America/Los_Angeles'
 
 [http_service]
   internal_port = 8080
