@@ -20,7 +20,8 @@ defmodule OfficeStatus.TRMNL do
           name: status.name,
           message: status.message,
           icon: status.icon,
-          color: status.color
+          color: status.color,
+          time: Calendar.strftime(DateTime.now!("America/Los_Angeles"), "%-I:%M %p")
         }
       })
 
@@ -35,7 +36,8 @@ defmodule OfficeStatus.TRMNL do
           name: status_name,
           message: "",
           icon: "",
-          color: ""
+          color: "",
+          time: Calendar.strftime(DateTime.now!("America/Los_Angeles"), "%-I:%M %p")
         }
       })
 
